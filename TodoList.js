@@ -30,13 +30,13 @@ app.get('/todo', (req, res, next) => next(),
 )
 
 
-app.post('/todo/add', (req, res, next) => next(),
+app.post('/todo', (req, res, next) => next(),
     (req, res) => {
         console.log('body: ', req.body)
         // res.send('user created')
         const todo = new Todo({
             name: req.body.name,
-            done: false
+            done: req.body.done
         })
         console.log(todo);
         Todo.create(todo,
@@ -50,11 +50,12 @@ app.post('/todo/add', (req, res, next) => next(),
     }
 )
 
-app.post('/todo/toDone/:id', (req, res, next) => next(),
+app.put('/todo/:id', (req, res, next) => next(),
     (req, res) => {
-        var id = req.params.id
-        Todo.update({ id: id}, { $set: {done: true} })
-        res.send("work")
+        Todo.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+            if (err) return next(err);
+            res.json(post);
+          })
     }
 )
 
