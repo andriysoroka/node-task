@@ -50,11 +50,34 @@ app.post('/todo', (req, res, next) => next(),
     }
 )
 
+
 app.put('/todo/:id', (req, res, next) => next(),
     (req, res) => {
         Todo.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
             if (err) return next(err);
             res.json(post);
+          })
+    }
+)
+
+app.put('/todo/toDone/:id', (req, res, next) => next(),
+    (req, res) => {
+        Todo.findByIdAndUpdate(req.params.id, req.body, function (err, todo) {
+            if (err) return next(err);
+            todo.done = true;
+
+            res.json(todo);
+          })
+    }
+)
+
+app.put('/todo/unDone/:id', (req, res, next) => next(),
+    (req, res) => {
+        Todo.findByIdAndUpdate(req.params.id, req.body, function (err, todo) {
+            if (err) return next(err);
+            todo.done = false;
+
+            res.json(todo);
           })
     }
 )
